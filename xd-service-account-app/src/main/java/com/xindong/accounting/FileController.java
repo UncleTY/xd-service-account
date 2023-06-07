@@ -6,6 +6,9 @@ import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.xindong.accounting.api.ResponseEnum;
+import com.xindong.accounting.pojo.dto.CheckDTO;
+import com.xindong.accounting.pojo.dto.ResultDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +49,7 @@ public class FileController {
 			item.setSubjectNo(item.getSubjectNo().replace("，", ",").trim());
 			return item;
 		}).collect(Collectors.toList());
+		ResponseEnum.BAD_LICENCE_TYPE.assertNotNull(subList, "123");
 		Map<String, BigDecimal> subDataMap = removeMultiData(subList);
 		importParams.setStartSheetIndex(1);
 		List<CheckDTO> detailList = ExcelImportUtil.importExcel(file.getInputStream(), CheckDTO.class, importParams);
